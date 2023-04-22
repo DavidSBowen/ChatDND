@@ -14,7 +14,7 @@ WORKSPACE_DIR=$(pwd)
 cd api
 
 # Change some Poetry settings to better deal with working in a container
-poetry config cache-dir ${WORKSPACE_DIR}/.cache
+poetry config cache-dir ${WORKSPACE_DIR}/api/.cache
 poetry config virtualenvs.in-project true
 
 # Now install all dependencies
