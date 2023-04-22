@@ -33,8 +33,7 @@ TBD
 
 [Ticket Kanban board](https://github.com/users/DavidSBowen/projects/1/views/2)
 
-## Other
+## Brainstorm
 [Google Docs Brainstorming](https://docs.google.com/document/d/1mlByvbyyMYlVMzv-P9Vy5uGSBC63b7gL9r9FGdApFWE/edit#)
 
 [Whimsical Diagrams](https://whimsical.com/everyone-in-workspace-3Q9HkRhViFmfyoUjoEmW5U)
-
