@@ -13,7 +13,7 @@
       // Options
       "NODE_VERSION": "18",
       // Additional Python tools
-      "POETRY_VERSION": "1.2.2",
+      "POETRY_VERSION": "1.4.2",
       "NOX_VERSION": "2022.11.21"
     }
   },
@@ -24,7 +24,7 @@
     "vscode": {
       // Set *default* container specific settings.json values on container create.
       "settings": {
-        "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+        "python.defaultInterpreterPath": "${workspaceFolder}/api/.venv/bin/python",
         "python.linting.enabled": true,
         "python.linting.pylintEnabled": false, // We use flake8
         "python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
