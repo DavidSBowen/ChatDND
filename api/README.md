@@ -5,7 +5,7 @@ Getting started
 or...
 
 1. [Install Poetry](https://python-poetry.org/docs/#installation)
-1. Make sure you're in the api directory `cd api`w
+1. Make sure you're in the api directory `cd api`
 1. Install all python dependencies with `poetry install`
 
 # Running the API
