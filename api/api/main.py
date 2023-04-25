@@ -1,4 +1,5 @@
 from fastapi import FastAPI, WebSocket
+from fastapi.middleware.cors import CORSMiddleware
 from langchain.chat_models import ChatOpenAI
 from langchain import PromptTemplate, LLMChain
 from langchain.prompts.chat import (
@@ -15,6 +16,17 @@ from langchain.schema import (
 )
 
 app = FastAPI()
+origins = [
+    "http://localhost:8080",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 chat = ChatOpenAI(temperature=0)
 messages: list[BaseMessage] = [
     # SystemMessage("You are a helpful AI assistant.")

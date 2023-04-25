@@ -6,8 +6,9 @@
             </div>
         </div>
         <div class="chat-input">
-            <input v-model="inputText" type="text" placeholder="Type your message here..." @keydown.enter="sendMessage" />
-            <button @click="sendMessage">Send</button>
+            <input ref="inputTextRef" v-model="inputText" type="text" placeholder="Type your message here..."
+                :disabled="isSending" @keydown.enter="sendMessage" />
+            <button :disabled="isSending" @click="sendMessage">{{ isSending ? 'Sending...' : 'Send' }}</button>
         </div>
     </div>
 </template>
@@ -19,19 +20,48 @@ export default {
             inputText: '',
             messages: [],
             messageId: 0,
-            isMe: true
+            isMe: true,
+            isSending: false,
         }
     },
     methods: {
-        sendMessage() {
+        async sendMessage() {
             if (this.inputText !== '') {
                 this.messages.push({
                     id: this.messageId++,
                     content: this.inputText,
-                    isMe: this.isMe
-                })
-                this.inputText = ''
-                this.isMe = !this.isMe
+                    isMe: true,
+                });
+
+                this.isSending = true;
+
+                try {
+
+                    const response = await fetch('http://localhost:8000/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ content: this.inputText }),
+                    });
+
+                    const result = await response.json();
+
+                    this.messages.push({
+                        id: this.messageId++,
+                        content: result.content,
+                        isMe: false,
+                    });
+                } catch (error) {
+                    console.error(error);
+                }
+
+                this.inputText = '';
+                this.isMe = true;
+                this.isSending = false;
+
+                // Focus the input box after the message is sent
+                this.$nextTick(() => this.$refs.inputTextRef.focus())
             }
         }
     }
@@ -42,7 +72,7 @@ export default {
 .chat-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 90vh;
 }
 
 .chat-messages {
@@ -95,8 +125,14 @@ export default {
     transition: background-color 0.2s ease;
 }
 
-.chat-input button:hover {
+.chat-input button:disabled {
+    background-color: #ddd;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.chat-input button:hover:not(:disabled) {
     background-color: #3e8e41;
+    color: #fff;
 }
 </style>
-  
