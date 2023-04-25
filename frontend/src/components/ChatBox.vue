@@ -72,7 +72,7 @@ export default {
 .chat-container {
     display: flex;
     flex-direction: column;
-    height: 50vh;
+    height: 90vh;
 }
 
 .chat-messages {
