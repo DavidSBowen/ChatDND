@@ -1,15 +1,7 @@
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from langchain.chat_models import ChatOpenAI
-from langchain import PromptTemplate, LLMChain
-from langchain.prompts.chat import (
-    ChatMessagePromptTemplate,
-    SystemMessagePromptTemplate, 
-    AIMessagePromptTemplate,
-    HumanMessagePromptTemplate
-)
 from langchain.schema import (
-    AIMessage,
     HumanMessage,
     SystemMessage,
     BaseMessage
@@ -29,7 +21,7 @@ app.add_middleware(
 
 chat = ChatOpenAI(temperature=0)
 messages: list[BaseMessage] = [
-    # SystemMessage("You are a helpful AI assistant.")
+    SystemMessage(content="You are a helpful AI assistant.")
 ]
 
 @app.get("/")
@@ -46,8 +38,8 @@ async def chat_websocket(websocket: WebSocket):
     await websocket.accept()
     while True:
         message = await websocket.receive_text()
-        response = send_chat_message(HumanMessage(message))
-        websocket.send_text(response.content)
+        response = send_chat_message(HumanMessage(content=message))
+        await websocket.send_text(response.content)
 
 def send_chat_message(message: HumanMessage):
     messages.append(message)
