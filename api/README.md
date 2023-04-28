@@ -11,4 +11,4 @@ or...
 # Running the API
 1. Make sure you're in the api folder, `cd api`
 2. Activate the python virtualenv with `poetry shell`
-3. Run the server with `uvicorn api.main:app --reload`
+3. Run the server with `python main.py`
