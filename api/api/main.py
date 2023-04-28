@@ -10,7 +10,7 @@ import uvicorn
 
 app = FastAPI()
 origins = [
-    "http://localhost:8080",
+    "*",
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -65,7 +65,7 @@ async def chat_websocket(websocket: WebSocket):
             await websocket.send_text(response.content)
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        await manager.broadcast(f"left the chat")
+        await manager.broadcast(f"someone left the chat")
 
 def send_chat_message(message: HumanMessage):
     messages.append(message)

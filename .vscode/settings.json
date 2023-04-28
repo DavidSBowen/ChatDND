@@ -2,4 +2,7 @@
   "eslint.workingDirectories": [
     {"mode": "auto"}
   ],
+  "files.watcherExclude": {
+    "**/target": true
+  },
 }
