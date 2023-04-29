@@ -25,17 +25,43 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref, type Ref } from 'vue'
+import { ref, type Ref, onBeforeUnmount } from 'vue'
 
 var inputText = ''
 var isSending = false
 var messages: Ref<{ id: number, content: string, isMe: boolean }[]> = ref([])
 var messageId = 0
-const inputTextRef: Ref<HTMLInputElement | null> = ref(null);
+const inputTextRef = ref<HTMLInputElement | null>(null);
+const ws = ref<WebSocket | null>(null);
+
+ws.value = new WebSocket('ws://localhost:8000/chat/ws');
+
+ws.value.onmessage = (event) => {
+
+    const message = event.data
+    messages.value.push({
+        id: messageId++,
+        content: message,
+        isMe: false,
+    });
+};
+
+ws.value.onclose = () => {
+    console.log('WebSocket connection closed');
+};
+
+ws.value.onerror = (error) => {
+    console.error(error);
+};
+
+onBeforeUnmount(() => {
+    if (ws.value?.readyState === WebSocket.OPEN) {
+        ws.value?.close();
+    }
+});
 
 async function sendMessage() {
     if (inputText !== '') {
-
         // clear out the text field
         var messageToSend = inputText
         inputText = ''
@@ -45,28 +71,8 @@ async function sendMessage() {
             content: messageToSend,
             isMe: true,
         });
-        isSending = true;
         console.log('Sending message: ' + messageToSend);
-        try {
-            const response = await fetch('http://localhost:8000/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ content: messageToSend }),
-            });
-            const result = await response.json();
-            messages.value.push({
-                id: messageId++,
-                content: result.content,
-                isMe: false,
-            });
-        } catch (error) {
-            console.error(error);
-        }
-        isSending = false;
-        // Focus the input box after the message is sent
-        nextTick(() => inputTextRef.value?.focus())
+        ws.value?.send(JSON.stringify({ content: messageToSend }));
     }
 }
 </script>
