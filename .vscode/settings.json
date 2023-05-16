@@ -5,4 +5,5 @@
   "files.watcherExclude": {
     "**/target": true
   },
+  "python.analysis.extraPaths": ["./api/api"]
 }

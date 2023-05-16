@@ -38,10 +38,10 @@ ws.value = new WebSocket('ws://localhost:8000/chat/ws');
 
 ws.value.onmessage = (event) => {
 
-    const message = event.data
+    const message = JSON.parse(event.data)
     messages.value.push({
         id: messageId++,
-        content: message,
+        content: message.content,
         isMe: false,
     });
 };
