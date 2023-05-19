@@ -41,7 +41,7 @@ async def root():
 
 @app.post("/chat/")
 async def receive_message(message: HumanMessage):
-    response = send_chat_message(message)
+    response = await send_chat_message(message.content)
     return response
 
 class ConnectionManager:
