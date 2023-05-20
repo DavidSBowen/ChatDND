@@ -4,27 +4,20 @@ Just a couple of gamers
 
 # Up and Running
 
-## Front-end
-### Dependencies
-- npm (i use 9.5.1)
-- node (i have 18.16.0)
-- vue (i have 5.0.8)
+## Requirements
+Docker Compose (v2.18.0+)
+Docker (23.0.5+)
 
-### How to run
-> $ cd frontend
-> 
-> $ npm install
-> 
-> $ npm run serve
-> 
-> Open http://localhost:8080/
+## Quickstart
+There are 3 commands in the Makefile. Use them from the directory the Makefile is in, which is the repository's root directory.
+- `make up`
+    - starts the FE, BE, and DB in Docker containers via docker-compose
+- `make down`
+    - shuts down the FE, BE, and DB containers
+- `make reset` - **use this for ease of use**
+    - runs `make down` then `make up`, effectively restarting the environment.
 
-## Back-end
-### Dependencies
-TBD
-
-### How to run
-> TBD
+**Note that resetting currently kills the database state and starts a new one**
 
 # Links
 
